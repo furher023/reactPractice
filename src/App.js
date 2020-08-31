@@ -3,14 +3,17 @@ import Main from './components/Main';
 import 'font-awesome/css/font-awesome.css';
 import 'bootstrap-social/bootstrap-social.css'
 import './App.css';
+import { BrowserRouter } from 'react-router-dom'; // Necessary for routing
 
 class App extends Component {
   
   render() {
     return(
-      <div className="App">
-        <Main />
-    </div>
+      <BrowserRouter>
+        <div className="App">
+          <Main />
+        </div>
+      </BrowserRouter>
     );
   }
 }
