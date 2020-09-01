@@ -5,6 +5,7 @@ import Menu from './MenuComponent';
 import Selected from './DishDetailComponent'
 import Home from './HomePage'
 import Contact from './Contact';
+import About from './AboutUs';
 import {DISHES} from '../shared/Dishes';
 import {COMMENTS} from '../shared/Comments';
 import {LEADERS} from '../shared/Leaders';
@@ -49,6 +50,7 @@ class Main extends Component {
           <Route path="/home" component={HomePage} />
           <Route exact path="/menu" component={()=> <Menu dishes={this.state.dishes}/>}/>
           <Route path="/menu/:dishId" component={dishWithID} /> {/* Route passes props: match,location and history*/}
+          <Route exact path="/aboutus" component ={()=> <About leaders={this.state.leaders} /> } />
           <Route exact path="/contactus" component={Contact} />
           <Redirect to="/home"/>
         </Switch>
