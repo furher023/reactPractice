@@ -6,7 +6,7 @@ class Header extends Component{
 
     constructor (props){
         super(props);
-        this.toggleNav = this.toggleNav.bind(this);
+        this.toggleNav = this.toggleNav.bind(this); //Binding the function so can be used in jsx directly
         this.state={
             isNavOpen:false
         }
@@ -14,7 +14,7 @@ class Header extends Component{
 
     toggleNav() {
         this.setState({
-          isNavOpen: !this.state.isNavOpen //Binding the function so can be used in jsx directly
+          isNavOpen: !this.state.isNavOpen 
         });
       }
 
