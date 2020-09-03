@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Breadcrumb,BreadcrumbItem,Form,Col,FormGroup,Input,Button,Label} from 'reactstrap';
+import {Breadcrumb,BreadcrumbItem,Form,Col,FormGroup,Input,Button,Label,FormFeedback} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
 class Contact extends Component{
@@ -15,12 +15,19 @@ class Contact extends Component{
             email: '',
             agree: false,
             contactType: 'Tel.',
-            message: ''
+            message: '',
+            touched:{ //To determine if an input field has been visited once i.e the fields being validated
+                firstname: false,
+                lastname: false,
+                telnum: false,
+                email: false,
+            }
         }
 
         //Binding the functions
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
     /*Handler for handling the input of form and concurrently changing the state of component */
@@ -40,8 +47,49 @@ class Contact extends Component{
         alert('Content is '+ JSON.stringify(this.state));
         event.preventDefault(); //prevents from default behaviour of submit, moving on or reloading the page
     }
-    
+
+    /*this handles the blur event and updates this.state.touch.fieldname to true once an input field has been touched */
+    handleBlur(event){
+        const name = event.target.name;
+        this.setState({
+            touched:{...this.state.touched , [name]:true}//meaning for all in this.state.touched, set [name] to true
+        })
+    } 
+
+    /*Validating the fields by using appropriate conditions and returning the errors */
+    validate({firstname,lastname,telnum,email}){
+        const errors = {
+            firstname: '',
+            lastname: '',
+            telnum: '',
+            email: ''
+        };
+
+        if (this.state.touched.firstname && firstname.length < 3)
+            errors.firstname = 'First Name should be >= 3 characters';
+        else if (this.state.touched.firstname && firstname.length > 10)
+            errors.firstname = 'First Name should be <= 10 characters';
+
+        if (this.state.touched.lastname && lastname.length < 3)
+            errors.lastname = 'Last Name should be >= 3 characters';
+        else if (this.state.touched.lastname && lastname.length > 10)
+            errors.lastname = 'Last Name should be <= 10 characters';
+
+        const reg = /^\d+$/;
+        if (this.state.touched.telnum && !reg.test(telnum))
+            errors.telnum = 'Tel. Number should contain only numbers';
+
+        if(this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
+            errors.email = 'Email should contain a @';
+
+        return errors;
+    }
+
     render(){
+
+        //everytime we make change to the input page is getting re rendered and checking for errors
+        let errors=this.validate(this.state);
+
         return(
             <div className="container">
                     <div className="row">
@@ -91,25 +139,46 @@ class Contact extends Component{
                             <FormGroup row>
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
-                                    <Input type="text" id="firstname" name="firstname" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange}/>
+                                    <Input type="text" id="firstname" name="firstname" placeholder="First Name" value={this.state.firstname }
+                                    {/*valid field only if no error and if visited once */}
+                                    valid={errors.firstname == '' && this.state.touched.firstname }
+                                    invalid={errors.firstname != ''}
+                                    onBlur={this.handleBlur}
+                                    onChange={this.handleInputChange}/>
+                                    <FormFeedback>{errors.firstname}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlFor="lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
-                                    <Input type="text" id="lastname" name="lastname" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange}/>
+                                    <Input type="text" id="lastname" name="lastname" placeholder="Last Name" value={this.state.lastname}
+                                    valid={errors.lastname == '' && this.state.touched.lastname}
+                                    invalid={errors.lastname != ''}
+                                    onBlur={this.handleBlur} 
+                                    onChange={this.handleInputChange}/>
+                                    <FormFeedback>{errors.lastname}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlFor="email" md={2}>Email</Label>
                                 <Col md={10}>
-                                    <Input type="email" id="email" name="email" placeholder="email@example.com" value={this.state.email} onChange={this.handleInputChange}/>
+                                    <Input type="email" id="email" name="email" placeholder="email@example.com" value={this.state.email}
+                                    valid={errors.email == '' && this.state.touched.email}
+                                    invalid={errors.email != ''}
+                                    onBlur={this.handleBlur} 
+                                    onChange={this.handleInputChange}/>
+                                    <FormFeedback>{errors.email}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlFor="telnum" md={2}>Telephone Num.</Label>
                                 <Col md={10}>
-                                    <Input type="number" id="telnum" name="telnum" placeholder="Telephone No." value={this.state.telnum} onChange={this.handleInputChange}/>
+                                    <Input type="number" id="telnum" name="telnum" placeholder="Telephone No." value={this.state.telnum }
+                                    valid={errors.telnum == '' && this.state.touched.telnum}
+                                    invalid={errors.telnum != ''} 
+                                    onBlur={this.handleBlur}
+                                    onChange={this.handleInputChange}/>
+                                    <FormFeedback>{errors.telnum}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
