@@ -140,8 +140,7 @@ class Contact extends Component{
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
                                     <Input type="text" id="firstname" name="firstname" placeholder="First Name" value={this.state.firstname }
-                                    {/*valid field only if no error and if visited once */}
-                                    valid={errors.firstname == '' && this.state.touched.firstname }
+                                    valid={errors.firstname == '' && this.state.touched.firstname /*valid field only if no error and if visited once */ }
                                     invalid={errors.firstname != ''}
                                     onBlur={this.handleBlur}
                                     onChange={this.handleInputChange}/>
