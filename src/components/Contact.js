@@ -87,7 +87,7 @@ class Contact extends Component{
 
     render(){
 
-        //everytime we make change to the input page is getting re rendered and checking for errors
+        //everytime we make change to the input, page is getting re rendered and checking for errors
         let errors=this.validate(this.state);
 
         return(
