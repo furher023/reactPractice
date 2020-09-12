@@ -1,9 +1,9 @@
 import {createStore,combineReducers} from 'redux';
 //import {Reducer,initialState} from './Reducer';
-import { Dishes } from './dishes';
-import { Comments } from './comments';
-import { Promotions } from './promotions';
-import { Leaders } from './leaders';
+import { Dishes } from './Dishes';
+import { Comments } from './Comments';
+import { Promotions } from './Promotions';
+import { Leaders } from './Leaders';
 
 
 /* Configuring the Redux Store*/
