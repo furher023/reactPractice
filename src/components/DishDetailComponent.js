@@ -3,6 +3,7 @@ import { Card, CardImg,CardText, CardBody,CardTitle,Breadcrumb,BreadcrumbItem, B
 import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
 import {LocalForm,Errors,Control} from 'react-redux-form';
+import {Loading} from './LoadingSpinner';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -75,7 +76,7 @@ class CommentForm extends Component{
     }
 }
 
-function RenderDish({dish}) {
+function RenderDish({dish,dishesLoading,errMess}) {
     if (dish != null)
         return(
             <Card>
@@ -126,7 +127,26 @@ function RenderDish({dish}) {
 }
 
 const Selected = (props)=>{
-   
+
+    if(props.dishesLoading){
+        return(
+            <div className='conatiner'>
+                <div className='Row'>
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    else if(props.errMess){
+        return(
+            <div className='conatiner'>
+                <div className='Row'>
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        )
+    }
+    else {
         return(
             <div className="container">
                 <div className="row">
@@ -153,6 +173,9 @@ const Selected = (props)=>{
             </div>
             
         );
+    }
+   
+       
         
 }
 
