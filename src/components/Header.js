@@ -49,7 +49,7 @@ class Header extends Component{
                             <Nav navbar>
                             <NavItem>
                                 <NavLink className="nav-link"  to='/home' onClick={this.toggleNav}><span className="fa fa-home fa-lg"></span> Home</NavLink>
-                            </NavItem>
+                            </NavItem>  
                             <NavItem>
                                 <NavLink className="nav-link" to='/aboutus' onClick={this.toggleNav}><span className="fa fa-info fa-lg"></span> About Us</NavLink>
                             </NavItem>

@@ -1,5 +1,5 @@
 import * as ActionTypes from './ActionTypes';
-import {DISHES} from '../shared/Dishes'
+import {baseUrl} from '../shared/URLs';
 
 export const addComment =(dishId,rating,author,comment)=>({
     type: ActionTypes.ADD_COMMENT,
@@ -15,9 +15,9 @@ export const addComment =(dishId,rating,author,comment)=>({
 export const fetchDishes = () =>  (dispatch) => {
     dispatch(dishesLoading(true));
 
-    setTimeout(()=>{
-        dispatch(addDishes(DISHES));
-    },2000);
+    fetch(baseUrl + 'dishes')
+    .then(res => res.json())
+    .then(dishes => dispatch(addDishes(dishes)));
 }
 
 //returning an actionObject from actionCreator

@@ -4,6 +4,7 @@ import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
 import {LocalForm,Errors,Control} from 'react-redux-form';
 import {Loading} from './LoadingSpinner';
+import {baseUrl} from '../shared/URLs';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -80,7 +81,7 @@ function RenderDish({dish,dishesLoading,errMess}) {
     if (dish != null)
         return(
             <Card>
-                <CardImg top src={dish.image} alt={dish.name} />
+                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                   <CardTitle>{dish.name}</CardTitle>
                   <CardText>{dish.description}</CardText>
