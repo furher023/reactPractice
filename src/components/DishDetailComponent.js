@@ -24,7 +24,7 @@ class CommentForm extends Component{
     }
     handleSubmit(values){
         //alert('Comment is'+JSON.stringify(values));
-        this.props.addComment(this.props.dishId,values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId,values.rating, values.author, values.comment);
         console.log('Comment is'+ JSON.stringify(values));
     }
     render(){
@@ -94,7 +94,7 @@ function RenderDish({dish,dishesLoading,errMess}) {
         );
 }
 
- function RenderComment({comments,addComment,dishId}){
+ function RenderComment({comments,postComment,dishId}){
      //console.log(comments);
     if(comments.length > 0){
         const comment = comments.map((comment)=>{
@@ -114,7 +114,7 @@ function RenderDish({dish,dishesLoading,errMess}) {
             <div className="Comments">
                 <h4>Comments</h4>
                 {comment}
-                <CommentForm addComment={addComment}
+                <CommentForm postComment={postComment}
                              dishId ={dishId} />
             </div>
             
@@ -167,7 +167,7 @@ const Selected = (props)=>{
                   </div>
                   <div  className="col-12 col-md-5 m-1">
                     < RenderComment comments={props.comments} 
-                                    addComment={props.addComment}
+                                    postComment={props.postComment}
                                     dishId={props.dish.id}/>
                   </div>
                 </div>
