@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import {LocalForm,Errors,Control} from 'react-redux-form';
 import {Loading} from './LoadingSpinner';
 import {baseUrl} from '../shared/URLs';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -80,6 +81,11 @@ class CommentForm extends Component{
 function RenderDish({dish,dishesLoading,errMess}) {
     if (dish != null)
         return(
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
             <Card>
                 <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
@@ -87,6 +93,7 @@ function RenderDish({dish,dishesLoading,errMess}) {
                   <CardText>{dish.description}</CardText>
                 </CardBody>
             </Card>
+            </FadeTransform >
         );
     else
         return(
@@ -97,8 +104,10 @@ function RenderDish({dish,dishesLoading,errMess}) {
  function RenderComment({comments,postComment,dishId}){
      //console.log(comments);
     if(comments.length > 0){
-        const comment = comments.map((comment)=>{
+        const comment = 
+        comments.map((comment)=>{
             return(
+                <Fade in>
                 <div className={comment.id}>
                     <ul className="list-unstyled">
                         <li>{comment.comment}</li>
@@ -107,13 +116,17 @@ function RenderDish({dish,dishesLoading,errMess}) {
                     </ul>
                      
                 </div>
+                </Fade>
                 
             );
         });
         return(
             <div className="Comments">
                 <h4>Comments</h4>
+                <Stagger in>
                 {comment}
+                </Stagger>
+                
                 <CommentForm postComment={postComment}
                              dishId ={dishId} />
             </div>
