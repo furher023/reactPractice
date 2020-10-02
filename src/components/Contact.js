@@ -53,6 +53,7 @@ class Contact extends Component{
     handleSubmit(values){
         console.log('Content is '+ JSON.stringify(values));
         alert('Content is '+ JSON.stringify(values));
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();
         //event.preventDefault(); //prevents from default behaviour of submit, moving on or reloading the page
     }

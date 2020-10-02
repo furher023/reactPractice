@@ -154,3 +154,80 @@ export const promotionsFailed = (errmess) =>({
     type: ActionTypes.PROMOTIONS_FAILED,
     payload: errmess
 });
+
+export const leadersFailed = (errmess) =>({
+    type: ActionTypes.LEADERS_FAILED,
+    payload : errmess
+});
+
+export const leadersLoading = () =>({
+    type: ActionTypes.LOADING_LEADERS
+})
+
+export const fetchLeaders = () => (dispatch) =>{
+    dispatch(leadersLoading());
+    fetch(baseUrl + 'leaders')
+    .then(response => {
+        if(response.ok){
+            return response.json();
+        }
+        else{// In case server responds with an error
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+            }
+        },
+        error => { //In case server not reached by fetch
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+    .then(leaders => dispatch(addLeaders(leaders)))
+    .catch(error=> dispatch(promotionsFailed(error.message)));
+};
+
+export const addLeaders = (leaders) =>({
+    type: ActionTypes.ADD_LEADERS,
+    payload: leaders
+});
+
+export const postFeedback =({firstname,lastname,telnum,email,agree,contactType,message})=>()=>{
+    const InitialFeedback = {
+        firstname: firstname,
+        lastname: lastname,
+        telnum: telnum,
+        email: email,
+        agree: agree,
+        contactType: contactType,
+        message: message
+    };
+    InitialFeedback.date = new Date().toISOString();
+
+    fetch(baseUrl + 'feedback',{
+        method: 'POST',
+        body: JSON.stringify(InitialFeedback),
+        headers:{
+            "Content-Type": "application/json"
+        },
+        credentials: 'same-origin' //Read more on this
+    })
+    .then(response => {
+        if(response.ok){
+            // Server responds with the information that was added to it
+            return response;
+        }
+        else{// In case server responds with an error
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+            }
+        },
+        error => { //In case server not reached by fetch
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+    .then(feedback => alert(feedback) )
+    .catch(error => {
+        console.log(error.message);
+        alert('Feedback could not be posted, '+ error.message);
+    })
+};
