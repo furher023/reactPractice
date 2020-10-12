@@ -78,14 +78,14 @@ class Main extends Component {
         <TransitionGroup>
             <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
         <Switch>
-          <Route path="/" component={HomePage} />
+          <Route path="/home" component={HomePage} />
           <Route exact path="/menu" component={()=> <Menu dishes={this.props.dishes.dishes}
                                                           dishesLoading ={ this.props.dishes.isLoading }
                                                           errMess={ this.props.dishes.errMess} /> } />
           <Route path="/menu/:dishId" component={dishWithID} /> {/* Route passes props: match,location and history*/}
           <Route exact path="/aboutus" component ={()=> <About leaders={this.props.leaders.leaders} isLoading={this.props.leaders.isLoading} errMess = {this.props.leaders.errMess} /> } />
           <Route exact path="/contactus" component={() => <Contact resetFeedbackForm = {this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} />
-          <Redirect to="/"/>
+          <Redirect to="/home"/>
         </Switch>
         </CSSTransition>
           </TransitionGroup>
